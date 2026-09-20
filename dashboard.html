@@ -3,274 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>오늘의 아침 브리핑</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@1.3.9/dist/web/static/pretendard.css">
+<title>아침 브리핑 — 2026-09-20</title>
 <style>
-  :root {
-    --bg-main: #0F1117;
-    --bg-card: #1A1D24;
-    --bg-card-soft: #1F232C;
-    --text-main: #F3F4F6;
-    --text-sub: #9AA3B2;
-    --accent: #5B8CFF;
-    --accent-2: #9B6BFF;
-    --border: #2D3748;
-    --warn-bg: rgba(255, 176, 32, 0.12);
-    --warn-text: #FFB84D;
-    --warn-border: rgba(255, 176, 32, 0.35);
+  @font-face {
+    font-family: 'Pretendard';
+    src: local('Pretendard');
   }
-
-  * { box-sizing: border-box; }
-
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    margin: 0;
-    padding: 48px 20px;
-    background:
-      radial-gradient(circle at 15% -10%, rgba(91, 140, 255, 0.10), transparent 45%),
-      radial-gradient(circle at 100% 0%, rgba(155, 107, 255, 0.08), transparent 40%),
-      var(--bg-main);
-    font-family: Pretendard, -apple-system, "Segoe UI", sans-serif;
-    color: var(--text-main);
+    font-family: 'Pretendard', -apple-system, "Segoe UI", sans-serif;
+    background: #0F1117;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(91,140,255,0.12), transparent 40%),
+      radial-gradient(circle at 100% 0%, rgba(155,107,255,0.12), transparent 40%);
+    color: #F3F4F6;
+    min-height: 100vh;
+    padding: 40px 16px;
   }
-
   .container {
     max-width: 960px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
   }
-
-  /* 날씨 상자 */
   .weather-card {
-    background: linear-gradient(160deg, var(--bg-card-soft), var(--bg-card));
-    border: 1px solid var(--border);
+    background: #1A1D24;
+    border: 1px solid #2D3748;
     border-radius: 24px;
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.45);
     padding: 32px;
+    margin-bottom: 32px;
   }
-
-  .weather-head {
+  .weather-header {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
     margin-bottom: 24px;
   }
-
   .weather-title {
     font-size: 24px;
     font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.3px;
   }
-
-  .weather-date {
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
     font-size: 14px;
-    color: var(--text-sub);
-    margin: 0;
+    font-weight: 600;
   }
-
-  .weather-numbers {
+  .badge-warn {
+    background: rgba(255,176,32,0.12);
+    color: #FFB84D;
+    border: 1px solid rgba(255,176,32,0.35);
+  }
+  .badge-ok {
+    background: rgba(45,55,72,0.5);
+    color: #9AA3B2;
+    border: 1px solid #2D3748;
+  }
+  .weather-stats {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 40px;
-    padding: 8px 0 28px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 20px;
+    gap: 32px;
   }
-
-  .metric { display: flex; flex-direction: column; gap: 6px; }
-
-  .metric-label {
-    font-size: 14px;
-    color: var(--text-sub);
+  .stat {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 12px;
   }
-
-  .metric-icon { font-size: 20px; line-height: 1; }
-
-  .metric-value {
-    font-size: 56px;
-    font-weight: 800;
+  .stat-emoji {
+    font-size: 40px;
     line-height: 1;
-    letter-spacing: -1px;
   }
-
-  .metric-value.max { background: linear-gradient(180deg, #FFFFFF, #C9CFDB); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .metric-value.min { color: var(--text-main); }
-  .metric-value.rain { color: var(--accent); }
-
-  .metric-value .unit { font-size: 28px; font-weight: 600; margin-left: 2px; }
-
-  .weather-alert {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 14px 18px;
-    border-radius: 14px;
-    background: var(--warn-bg);
-    color: var(--warn-text);
-    border: 1px solid var(--warn-border);
+  .stat-value {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
   }
-
-  .weather-alert.safe {
-    background: rgba(255, 255, 255, 0.04);
-    color: var(--text-sub);
-    border: 1px solid var(--border);
-    font-weight: 400;
-  }
-
-  .weather-note {
+  .stat-label {
     font-size: 14px;
-    color: var(--text-sub);
-    margin: 14px 0 0;
+    color: #9AA3B2;
+    margin-top: 6px;
   }
-
-  /* 뉴스 섹션 */
-  .section-title {
+  .weather-note {
+    margin-top: 24px;
+    font-size: 14px;
+    color: #9AA3B2;
+  }
+  .news-section-title {
     font-size: 24px;
     font-weight: 700;
-    margin: 0 0 20px;
-    letter-spacing: -0.3px;
+    margin-bottom: 20px;
   }
-
   .news-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-
   .news-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: #1A1D24;
+    border: 1px solid #2D3748;
     border-radius: 18px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
     padding: 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
   }
-
   .news-card:hover {
     transform: translateY(-4px);
-    border-color: var(--accent);
+    border-color: #5B8CFF;
   }
-
-  .news-card a {
+  .econ-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, #5B8CFF, #9B6BFF);
+    color: #F3F4F6;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .news-title a {
+    color: #F3F4F6;
+    text-decoration: none;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-main);
-    text-decoration: none;
-    line-height: 1.45;
+    line-height: 1.5;
+    display: block;
+    margin-bottom: 14px;
   }
-
-  .news-card a:hover { color: var(--accent); }
-
+  .news-title a:hover {
+    color: #9B6BFF;
+  }
   .news-meta {
     font-size: 14px;
-    color: var(--text-sub);
-    margin: 0;
+    color: #9AA3B2;
   }
-
-  .tag-economy {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    font-size: 13px;
-    font-weight: 700;
-    color: #EAF0FF;
-    background: linear-gradient(120deg, var(--accent), var(--accent-2));
-    border-radius: 999px;
-    padding: 4px 12px;
-    box-shadow: 0 0 16px rgba(91, 140, 255, 0.55);
-    letter-spacing: 0.2px;
-  }
-
-  footer {
-    text-align: center;
-    font-size: 14px;
-    color: var(--text-sub);
-    padding: 8px 4px 0;
-  }
-
   @media (max-width: 768px) {
-    .news-grid { grid-template-columns: 1fr; }
-    .metric-value { font-size: 44px; }
-    .weather-numbers { gap: 28px; }
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
+    .weather-stats {
+      gap: 20px;
+    }
+    .stat-value {
+      font-size: 44px;
+    }
   }
 </style>
 </head>
 <body>
-  <div class="container">
+<div class="container">
 
-    <!-- 날씨 상자 -->
-    <section class="weather-card">
-      <div class="weather-head">
-        <p class="weather-title">영주시 상망동 오늘 날씨</p>
-        <p class="weather-date">2026년 9월 20일 (일)</p>
-      </div>
-
-      <div class="weather-numbers">
-        <div class="metric">
-          <span class="metric-label"><span class="metric-icon">☀️</span>최고</span>
-          <span class="metric-value max">26.1<span class="unit">°</span></span>
-        </div>
-        <div class="metric">
-          <span class="metric-label"><span class="metric-icon">🌙</span>최저</span>
-          <span class="metric-value min">13.3<span class="unit">°</span></span>
-        </div>
-        <div class="metric">
-          <span class="metric-label"><span class="metric-icon">💧</span>강수확률</span>
-          <span class="metric-value rain">0<span class="unit">%</span></span>
+  <div class="weather-card">
+    <div class="weather-header">
+      <div class="weather-title">오늘의 날씨 · 영주시 · 2026-09-20</div>
+      <span class="badge badge-warn">⚠️ 기준 넘음</span>
+    </div>
+    <div class="weather-stats">
+      <div class="stat">
+        <div class="stat-emoji">☀️</div>
+        <div>
+          <div class="stat-value">26.1℃</div>
+          <div class="stat-label">최고기온</div>
         </div>
       </div>
-
-      <div class="weather-alert">
-        ⚠️ 기준 넘음 — 최저기온 13.3℃ ≤ 18℃ 기준 충족 (강수확률 0% &lt; 60%)
+      <div class="stat">
+        <div class="stat-emoji">🌙</div>
+        <div>
+          <div class="stat-value">13.3℃</div>
+          <div class="stat-label">최저기온</div>
+        </div>
       </div>
-
-      <p class="weather-note">출처: open-meteo.com · 상망동 좌표가 없어 영주시 중심 좌표로 조회</p>
-    </section>
-
-    <!-- 뉴스 -->
-    <section>
-      <p class="section-title">오늘의 뉴스</p>
-      <div class="news-grid">
-
-        <article class="news-card">
-          <span class="tag-economy">경제</span>
-          <a href="https://www.yna.co.kr/view/AKR20260920035600062" target="_blank" rel="noopener">
-            세계 품새 고수 2천269명 춘천서 열전…경제효과도 '톡톡'
-          </a>
-          <p class="news-meta">연합뉴스 · 2026-09-20 16:16</p>
-        </article>
-
-        <article class="news-card">
-          <a href="https://www.yna.co.kr/view/AKR20260920054000007" target="_blank" rel="noopener">
-            [아시안게임] 의구심 딛고 아시아 제패…빛 발한 마줄스의 '시스템 농구'
-          </a>
-          <p class="news-meta">연합뉴스 · 2026-09-20 21:40</p>
-        </article>
-
-        <article class="news-card">
-          <a href="https://www.yna.co.kr/view/AKR20260920053200009" target="_blank" rel="noopener">
-            中 상반기 조선 수주량, 전년 대비 3배로…중동 전쟁 반사이익
-          </a>
-          <p class="news-meta">연합뉴스 · 2026-09-20 21:36</p>
-        </article>
-
+      <div class="stat">
+        <div class="stat-emoji">💧</div>
+        <div>
+          <div class="stat-value">0%</div>
+          <div class="stat-label">강수확률</div>
+        </div>
       </div>
-    </section>
-
-    <footer>news.md · weather.md · weather_alert.md 기반 자동 생성</footer>
+    </div>
+    <div class="weather-note">최저기온 13.3℃가 기준(18℃ 이하)을 넘어 경고가 표시되었습니다. · "상망동" 좌표가 없어 영주시 중심 좌표로 대체했습니다.</div>
   </div>
+
+  <div class="news-section">
+    <div class="news-section-title">오늘의 뉴스</div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="news-title"><a href="https://www.yna.co.kr/view/AKR20260920055600007" target="_blank" rel="noopener">[아시안게임] 이현중은 눈물·마줄스는 활짝…12년만의 우승 만끽한 韓농구</a></div>
+        <div class="news-meta">2026-09-20 22:39 · 연합뉴스</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-title"><a href="https://www.yna.co.kr/view/AKR20260920055300071" target="_blank" rel="noopener">트럼프 "워싱턴 개선문 군사겸용으로 짓겠다…저격수도 배치"</a></div>
+        <div class="news-meta">2026-09-20 22:36 · 연합뉴스</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-title"><a href="https://www.yna.co.kr/view/AKR20260920055200007" target="_blank" rel="noopener">[아시안게임] 곽빈, 대만전 선발 중책…대만은 실업팀 우완 린이웨이</a></div>
+        <div class="news-meta">2026-09-20 22:27 · 연합뉴스</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 </body>
 </html>
